@@ -65,4 +65,4 @@ jobs:
           token: ${{ secrets.E2E_TRIGGER }}
           repository: benkn/e2e-testing
           event-type: trigger-tests
-          client-payload: '{"partner": "${{ github.sha }}", "test_env": "dev"}'
+          client-payload: '{"partner": "", "test_env": "dev"}'
