@@ -28,12 +28,12 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-  build db image:
+  build-db-image:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Building docker image"
-  trigger e2es:
-    needs: build db image
+  trigger-e2es:
+    needs: build-db-image
     runs-on: ubuntu-latest
     steps:
       - name: Repository Dispatch
@@ -41,5 +41,5 @@ jobs:
         with:
           # token: ${{ secrets.PAT }}
           repository: benkn/e2e-testing
-          event-type: trigger-tests
+          event-type: trigger-tests # run-tests
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
