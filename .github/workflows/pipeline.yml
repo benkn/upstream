@@ -66,3 +66,15 @@ jobs:
           repository: benkn/e2e-testing
           event-type: trigger-tests
           client-payload: '{"partner": "${{ github.sha }}", "test_env": "dev"}'
+  trigger-staging-e2es:
+    needs: [build-db-image, deploy]
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/staging' }}
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.E2E_TRIGGER }}
+          repository: benkn/e2e-testing
+          event-type: trigger-tests
+          client-payload: '{"partner": "${{ github.sha }}", "test_env": "staging"}'
