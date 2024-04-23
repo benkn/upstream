@@ -28,13 +28,24 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+  dockerize:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - run: echo "Building docker image"
+  deploy:
+    runs-on: ubuntu-latest
+    needs: dockerize
+    steps:
+      - run: echo "deploying to environment"
   build-db-image:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Building docker image"
-  trigger-e2es:
-    needs: build-db-image
+      - run: echo "Building data docker image"
+  trigger-PR-e2es:
+    needs: [build-db-image, deploy]
     runs-on: ubuntu-latest
+    if: ${{ startsWith(github.ref, 'refs/pull') }}
     steps:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v3
@@ -42,4 +53,16 @@ jobs:
           token: ${{ secrets.E2E_TRIGGER }}
           repository: benkn/e2e-testing
           event-type: trigger-tests
-          client-payload: '{"partner": "partner-dev-${{ github.sha }}"}'
+          client-payload: '{"partner": "${{ github.sha }}", "test_env": "dev"}'
+  trigger-main-e2es:
+    needs: [build-db-image, deploy]
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.E2E_TRIGGER }}
+          repository: benkn/e2e-testing
+          event-type: trigger-tests
+          client-payload: '{"partner": "${{ github.sha }}", "test_env": "dev"}'
