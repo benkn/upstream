@@ -1,0 +1,27 @@
+# Files
+*.log
+*.pyc
+
+# OS Junk
+.DS_Store
+
+# Directories
+## Caches
+.venv
+node_modules
+__pycache__
+.pytest_cache/
+
+## Build directories
+build
+target
+dist
+
+## IDE
+.idea
+.vscode
+*.iml
+
+## Temp
+temp
+tmp
