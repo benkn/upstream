@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Repository Dispatch
-        uses: benkn/e2e-testing
+        uses: benkn/e2e-testing@main
         with:
           # token: ${{ secrets.PAT }}
           repository: benkn/e2e-testing
