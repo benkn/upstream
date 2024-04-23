@@ -39,7 +39,7 @@ jobs:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.e2e_trigger }}
+          token: ${{ secrets.E2E_TRIGGER }}
           repository: benkn/e2e-testing
           event-type: trigger-tests # run-tests
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
