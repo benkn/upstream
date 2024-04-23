@@ -37,9 +37,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Repository Dispatch
-        uses: benkn/e2e-testing@main
+        uses: peter-evans/repository-dispatch@v3
         with:
-          # token: ${{ secrets.PAT }}
+          token: ${{ secrets.e2e_trigger }}
           repository: benkn/e2e-testing
           event-type: trigger-tests # run-tests
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
